@@ -34,6 +34,69 @@ function merge(left, right, array) {
   return array;
 }
 
+function quickSort(array, start = 0, end = array.length) {
+  if (start >= end) {
+    return array;
+  }
+  const middle = partition(array, start, end);
+  array = quickSort(array, start, middle);
+  array = quickSort(array, middle + 1, end);
+  return array;
+}
+
+function partition(array, start, end) {
+  const pivot = array[end - 1];
+  let j = start;
+  for (let i = start; i < end - 1; i++) {
+    if (array[i] <= pivot) {
+      swap(array, i, j);
+      j++;
+    }
+  }
+  swap(array, end - 1, j);
+  return j;
+}
+
+function bucketSort(array, low, high) {
+  const newArray = [];
+  for (let i = 0; i < high; i++) {
+    newArray[i] = "";
+  }
+  for (let i = 0; i < array.length; i++) {
+    newArray[array[i] - low] = array[i];
+  }
+  return newArray;
+}
+const bucketData = [8, 1, 9, 5, 4, 10, 6, 2, 3, 7];
+console.log(bucketSort(bucketData, 1, 10));
+
+function shuffle(array, counter = 0) {
+  while (counter < array.length) {
+    let randomIndex = Math.floor(Math.random() * array.length);
+    swap(array, counter, randomIndex);
+    counter++;
+    return shuffle(array, counter);
+  }
+  return array;
+}
+
+let shuffleData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(shuffle(shuffleData));
+
+function SortBooks(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  const middle = Math.floor(arr.length / 2);
+  let left = arr.slice(0, middle);
+  let right = arr.slice(middle, arr.length);
+
+  left = SortBooks(left);
+  right = SortBooks(right);
+  return merge(left, right, arr);
+}
+
 function main() {
   let listOfNums = [
     21,
